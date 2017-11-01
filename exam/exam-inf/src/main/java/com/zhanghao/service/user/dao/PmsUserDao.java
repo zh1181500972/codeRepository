@@ -1,7 +1,9 @@
 package com.zhanghao.service.user.dao;
 
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+
 import com.zhanghao.biz.entity.PmsUser;
-import com.zhanghao.service.user.common.core.dao.BaseDao;
+import com.zhanghao.common.dao.BaseDao;
 
 /**
  * 
@@ -23,3 +25,4 @@ public interface PmsUserDao extends BaseDao<PmsUser> {
 	void updateUserPwd(Long userId, String newPwd, boolean isTrue);
 
 }
+

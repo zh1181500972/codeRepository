@@ -2,7 +2,7 @@ package com.zhanghao.biz.entity;
 
 import java.util.Date;
 
-import com.zhanghao.biz.common.entity.BaseEntity;
+import com.zhanghao.common.entity.BaseEntity;
 
 public class PmsUser extends BaseEntity {
 	/**

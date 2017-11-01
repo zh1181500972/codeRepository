@@ -21,11 +21,11 @@ public class PmsUserServiceImplTest {
 	@Test
 	public void testCreate() {
 		PmsUser pmsUser=new PmsUser();
-		pmsUser.setAccount("zhanghao");
+		pmsUser.setAccount("zhanghao1");
 		pmsUser.setAvatar("/head/zhanghao.png");
 		pmsUser.setBirthday(DateUtils.parse("1996-12-28"));
-		pmsUser.setName("张浩");
-		pmsUser.setPassword("123456");
+		pmsUser.setName("张浩1");
+		pmsUser.setPassword("1234526");
 		pmsUserService.create(pmsUser);
 	}
 

@@ -3,7 +3,7 @@ package com.zhanghao.service.user.dao.impl;
 import org.springframework.stereotype.Repository;
 
 import com.zhanghao.biz.entity.PmsUser;
-import com.zhanghao.service.user.common.core.dao.BaseDaoImpl;
+import com.zhanghao.common.dao.BaseDaoImpl;
 import com.zhanghao.service.user.dao.PmsUserDao;
 
 

@@ -5,10 +5,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zhanghao.biz.common.page.PageBean;
-import com.zhanghao.biz.common.page.PageParam;
 import com.zhanghao.biz.entity.PmsUser;
 import com.zhanghao.biz.user.service.PmsUserService;
+import com.zhanghao.common.page.PageBean;
+import com.zhanghao.common.page.PageParam;
 import com.zhanghao.service.user.dao.PmsUserDao;
 
 /**

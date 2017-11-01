@@ -2,9 +2,9 @@ package com.zhanghao.biz.user.service;
 
 import java.util.Map;
 
-import com.zhanghao.biz.common.page.PageBean;
-import com.zhanghao.biz.common.page.PageParam;
 import com.zhanghao.biz.entity.PmsUser;
+import com.zhanghao.common.page.PageBean;
+import com.zhanghao.common.page.PageParam;
 
 /**
  * @描述:用户Dubbo服务接口
