@@ -2,6 +2,8 @@ package com.zhanghao.inf.user.service.impl;
 
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,15 @@ public class PmsUserServiceImplTest {
 	PmsUserService pmsUserService;
 
 	@Test
-	public void testCreate() {
+	public void testCreate() throws Exception {
 		PmsUser pmsUser=new PmsUser();
-		pmsUser.setAccount("zhanghao1");
+		pmsUser.setAccount("zhanghao3");
 		pmsUser.setAvatar("/head/zhanghao.png");
 		pmsUser.setBirthday(DateUtils.parse("1996-12-28"));
-		pmsUser.setName("张浩1");
+		pmsUser.setName("张浩3");
 		pmsUser.setPassword("1234526");
 		pmsUserService.create(pmsUser);
+		System.in.read();
 	}
 
 	@Test

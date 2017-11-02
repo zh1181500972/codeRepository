@@ -97,15 +97,14 @@
 				</includes>
 			</resource>
 			<!-- 结合com.alibaba.dubbo.container.Main -->
-			<resource>
-				<targetPath>${project.build.directory}/classes/META-INF</targetPath>
-				<directory>src/main/resources</directory>
+			<!-- <resource>
+				<targetPath>${project.build.directory}/classes/META-INF/spring</targetPath>
+				<directory>src/main/resources/spring</directory>
 				<filtering>true</filtering>
 				<includes>
-					<include>*.xml</include>
-					<include>*.properties</include>
+					<include>spring-context.xml</include>
 				</includes>
-			</resource>
+			</resource> -->
 		</resources>
 		
 		<pluginManagement>
@@ -146,7 +145,8 @@
 					<classesDirectory>target/classes/</classesDirectory>
 					<archive>
 						<manifest>
-							<mainClass>com.alibaba.dubbo.container.Main</mainClass>
+							<!-- mainClass>com.alibaba.dubbo.container.Main</mainClass> -->
+							<mainClass>com.zhanghao.main.StartProvider</mainClass>
 							<!-- 打包时 MANIFEST.MF文件不记录的时间戳版本 -->
 							<useUniqueVersions>false</useUniqueVersions>
 							<addClasspath>true</addClasspath>
