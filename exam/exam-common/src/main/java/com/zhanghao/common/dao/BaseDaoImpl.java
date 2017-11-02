@@ -192,7 +192,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity> extends SqlSessionDaoSup
 		paramMap.put("endRowNum", pageParam.getPageNum() * pageParam.getNumPerPage());
 
 		// 统计总记录数
-		Long count = sessionTemplate.selectOne(getStatement(SQL_LIST_PAGE_COUNT), paramMap);
+		Integer count = sessionTemplate.selectOne(getStatement(SQL_LIST_PAGE_COUNT), paramMap);
 
 		// 获取分页数据集
 		List<Object> list = sessionTemplate.selectList(getStatement(SQL_LIST_PAGE), paramMap);

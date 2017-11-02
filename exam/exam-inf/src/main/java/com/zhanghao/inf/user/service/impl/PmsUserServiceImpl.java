@@ -1,14 +1,21 @@
 package com.zhanghao.inf.user.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zhanghao.biz.entity.PmsUser;
 import com.zhanghao.biz.user.service.PmsUserService;
 import com.zhanghao.common.page.PageBean;
 import com.zhanghao.common.page.PageParam;
+import com.zhanghao.core.utils.DateUtils;
+import com.zhanghao.core.utils.Md5Utils;
+import com.zhanghao.core.utils.RandomUtils;
 import com.zhanghao.service.user.dao.PmsUserDao;
 
 /**
@@ -17,7 +24,13 @@ import com.zhanghao.service.user.dao.PmsUserDao;
  * @创建时间:2017年10月25日 下午3:18:24
  */
 @Service("pmsUserService")
+@Transactional
 public class PmsUserServiceImpl implements PmsUserService {
+	/**
+	 * MD5加密随机参生盐值的长度
+	 */
+	private static final int SALT_LEGHT = 5;
+	
 	@Autowired
 	private PmsUserDao pmsUserDao;
 
@@ -27,6 +40,13 @@ public class PmsUserServiceImpl implements PmsUserService {
 	 * @param pmsUser
 	 */
 	public void create(PmsUser pmsUser) {
+		String password = pmsUser.getPassword();
+		if(StringUtils.isEmpty(password)){
+			throw new IllegalArgumentException("用户密码不能为空");
+		}
+		String salt = RandomUtils.getRandomString(SALT_LEGHT);
+		pmsUser.setSalt(salt);
+		pmsUser.setPassword(Md5Utils.encode(password, salt));
 		pmsUserDao.insert(pmsUser);
 	}
 
@@ -36,6 +56,7 @@ public class PmsUserServiceImpl implements PmsUserService {
 	 * @param userId
 	 * @return
 	 */
+	@Transactional(propagation=Propagation.NOT_SUPPORTED)
 	public PmsUser getById(Integer userId) {
 		return pmsUserDao.selectByPrimaryKey(userId);
 	}
@@ -43,6 +64,7 @@ public class PmsUserServiceImpl implements PmsUserService {
 	/**
 	 * 根据登录名取得用户对象
 	 */
+	@Transactional(propagation=Propagation.NOT_SUPPORTED)
 	public PmsUser findUserByUserNo(String userNo) {
 		return pmsUserDao.findByUserNo(userNo);
 	}
@@ -66,16 +88,6 @@ public class PmsUserServiceImpl implements PmsUserService {
 		pmsUserDao.updateByPrimaryKey(user);
 	}
 
-	/**
-	 * 根据用户ID更新用户密码.
-	 * 
-	 * @param userId
-	 * @param newPwd
-	 *            (已进行SHA1加密)
-	 */
-	public void updateUserPwd(Long userId, String newPwd, boolean isTrue) {
-		pmsUserDao.updateUserPwd(userId, newPwd, isTrue);
-	}
 
 	/**
 	 * 查询并分页列出用户信息.
@@ -84,14 +96,30 @@ public class PmsUserServiceImpl implements PmsUserService {
 	 * @param paramMap
 	 * @return
 	 */
+	@Transactional(propagation=Propagation.NOT_SUPPORTED)
 	public PageBean listPage(PageParam pageParam, Map<String, Object> paramMap) {
 		return pmsUserDao.listPage(pageParam, paramMap);
 	}
 
 	@Override
-	public void updateUserPwd(Integer userId, String newPwd, boolean isTrue) {
+	public void updateUserPwd(Integer userId, Integer id,String newPwd) {
+		if(userId ==null || id==null || StringUtils.isEmpty(newPwd)){
+			throw new IllegalArgumentException("参数异常");
+		}
+		PmsUser pmsUser=new PmsUser();
+		pmsUser.setId(id);
+		String salt = RandomUtils.getRandomString(SALT_LEGHT);
+		pmsUser.setPassword(Md5Utils.encode(newPwd, salt));
+		pmsUser.setSalt(salt);
+		pmsUserDao.updateUserPwd(pmsUser);
+	}
+
+	@Override
+	public void create(List<PmsUser> pmsUsers) {
 		// TODO Auto-generated method stub
-		
+		for (PmsUser pmsUser : pmsUsers) {
+			create(pmsUser);
+		}
 	}
 
 }

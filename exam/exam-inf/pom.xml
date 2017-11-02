@@ -25,19 +25,6 @@
 			<artifactId>exam-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-
 		<!-- mybatis包引用 配置 begin -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -84,6 +71,18 @@
 			<groupId>com.github.sgroschupf</groupId>
 			<artifactId>zkclient</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
@@ -97,16 +96,11 @@
 				</includes>
 			</resource>
 			<!-- 结合com.alibaba.dubbo.container.Main -->
-			<!-- <resource>
-				<targetPath>${project.build.directory}/classes/META-INF/spring</targetPath>
-				<directory>src/main/resources/spring</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>spring-context.xml</include>
-				</includes>
-			</resource> -->
+			<!-- <resource> <targetPath>${project.build.directory}/classes/META-INF/spring</targetPath> 
+				<directory>src/main/resources/spring</directory> <filtering>true</filtering> 
+				<includes> <include>spring-context.xml</include> </includes> </resource> -->
 		</resources>
-		
+
 		<pluginManagement>
 			<plugins>
 				<!-- 解决Maven插件在Eclipse内执行了一系列的生命周期引起冲突 -->

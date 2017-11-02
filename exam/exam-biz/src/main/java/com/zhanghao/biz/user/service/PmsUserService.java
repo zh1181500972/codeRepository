@@ -1,5 +1,6 @@
 package com.zhanghao.biz.user.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.zhanghao.biz.entity.PmsUser;
@@ -18,6 +19,13 @@ public interface PmsUserService {
 	 * @param pmsUser
 	 */
 	public void create(PmsUser pmsUser);
+	
+	/**
+	 * 批量保存用户信息.
+	 * 
+	 * @param pmsUser
+	 */
+	public void create(List<PmsUser> pmsUsers);
 
 	/**
 	 * 根据ID获取用户信息.
@@ -50,11 +58,11 @@ public interface PmsUserService {
 	/**
 	 * 根据用户ID更新用户密码.
 	 * 
-	 * @param userId
-	 * @param newPwd
-	 *            (已进行SHA1加密)
+	 * @param userId 更新人
+	 * @param id    主键
+	 * @param newPwd 新密码
 	 */
-	public void updateUserPwd(Integer userId, String newPwd, boolean isTrue);
+	public void updateUserPwd(Integer userId,Integer id, String newPwd);
 
 	/**
 	 * 查询并分页列出用户信息.

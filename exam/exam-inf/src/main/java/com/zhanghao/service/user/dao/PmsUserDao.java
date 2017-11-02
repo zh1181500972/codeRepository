@@ -22,7 +22,8 @@ public interface PmsUserDao extends BaseDao<PmsUser> {
 	 */
 	PmsUser findByUserNo(String userNo);
 
-	void updateUserPwd(Long userId, String newPwd, boolean isTrue);
+	
+	void updateUserPwd(PmsUser pmsUser);
 
 }
 

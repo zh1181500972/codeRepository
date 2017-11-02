@@ -1,5 +1,8 @@
 package com.zhanghao.service.user.dao.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Repository;
 
 import com.zhanghao.biz.entity.PmsUser;
@@ -28,9 +31,9 @@ public class PmsUserDaoImpl extends BaseDaoImpl<PmsUser> implements PmsUserDao {
 	}
 
 	@Override
-	public void updateUserPwd(Long userId, String newPwd, boolean isTrue) {
+	public void updateUserPwd(PmsUser pmsUser) {
 		// TODO Auto-generated method stub
-		
+		super.getSqlSession().update(getStatement("updateUserPwd"),pmsUser);
 	}
 
 }
