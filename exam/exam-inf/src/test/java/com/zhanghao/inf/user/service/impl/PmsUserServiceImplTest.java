@@ -7,6 +7,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +27,8 @@ import com.zhanghao.biz.entity.PmsUser;
 import com.zhanghao.biz.user.service.PmsUserService;
 import com.zhanghao.common.page.PageBean;
 import com.zhanghao.common.page.PageParam;
+import com.zhanghao.core.aop.LogAopTest;
+import com.zhanghao.core.utils.ChineseUtils;
 import com.zhanghao.core.utils.DateUtils;
 import com.zhanghao.core.utils.RandomUtils;
 
@@ -45,23 +56,59 @@ public class PmsUserServiceImplTest {
 	@Test
 	public void testCreateList() throws Exception {
 		long start = System.currentTimeMillis();
-		List<PmsUser> list=new ArrayList<PmsUser>();
-		for(int i=0;i<=100;i++){
-			PmsUser pmsUser=new PmsUser();
-			pmsUser.setAccount("zengshaowebg");
-			pmsUser.setAvatar("/head/zengshaowebg.png");
-			pmsUser.setBirthday(DateUtils.parse("1996-12-28"));
-			pmsUser.setName("曾少文1");
-			pmsUser.setPassword("112233");
-			pmsUser.setUpdateuser(1);
-			pmsUser.setStatus(1);
-			pmsUser.setPhone(RandomUtils.randomPhone());
-			pmsUser.setEmail(RandomUtils.randomEmail());
-			pmsUserService.create(pmsUser);
-			list.add(pmsUser);
+		BlockingQueue<Runnable> workQueue=new ArrayBlockingQueue<>(150);
+		RejectedExecutionHandler a=new RejectedExecutionHandler() {
+			
+			@Override
+			public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+				// TODO Auto-generated method stub
+				try {
+					executor.getQueue().put(r);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		ThreadPoolExecutor threadPool =new ThreadPoolExecutor(20, 25, 0, TimeUnit.SECONDS, workQueue,a);
+		final CountDownLatch count=new CountDownLatch(600);
+		for(int i=0;i<600;i++){
+			threadPool.submit(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					System.out.println(Thread.currentThread().getName()+"开始执行任务");
+					long s = System.currentTimeMillis();
+					List<PmsUser> list=new ArrayList<PmsUser>();
+					for(int i=0;i<=10000;i++){
+						PmsUser pmsUser=new PmsUser();
+						String chineName = RandomUtils.randomChineName();
+						String pingYin = ChineseUtils.getPingYin(chineName);
+						pmsUser.setAccount(pingYin);
+						pmsUser.setAvatar("/head/"+pingYin+".png");
+						pmsUser.setBirthday(DateUtils.parse(RandomUtils.randomDate(1960, 2013)));
+						pmsUser.setName(chineName);
+						pmsUser.setPassword("123456");
+						pmsUser.setUpdateuser(1);
+						pmsUser.setSex(RandomUtils.getRangeNum(1,2));
+						pmsUser.setStatus(1);
+						pmsUser.setPhone(RandomUtils.randomPhone());
+						pmsUser.setEmail(RandomUtils.randomEmail());
+						list.add(pmsUser);
+					}
+					pmsUserService.create(list);
+					count.countDown();;
+					long e = System.currentTimeMillis();
+					System.out.println(Thread.currentThread().getName()+"开始执行任务完成:"+(e-s));
+				}
+			});
 		}
-		pmsUserService.create(list);
 		long end = System.currentTimeMillis();
+		System.out.println("等待中.."+threadPool.getActiveCount());
+		count.await();
+		System.out.println("task finished");
+		threadPool.shutdown();
 		System.out.println("耗时："+(end-start));
 	}
 
@@ -73,10 +120,9 @@ public class PmsUserServiceImplTest {
 
 	@Test
 	public void testFindUserByUserNo() {
-		PmsUser pmsUser = pmsUserService.findUserByUserNo("zhanghao");
+		PmsUser pmsUser = pmsUserService.findUserByUserNo("wangwu");
 		Assert.assertNotNull(pmsUser);
 	}
-
 	@Test
 	public void testDeleteUserByIdInteger() {
 		pmsUserService.deleteUserById(45);

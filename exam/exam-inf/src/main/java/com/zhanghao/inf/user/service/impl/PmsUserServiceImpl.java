@@ -40,6 +40,11 @@ public class PmsUserServiceImpl implements PmsUserService {
 	 * @param pmsUser
 	 */
 	public void create(PmsUser pmsUser) {
+		setDefultValue(pmsUser);
+		pmsUserDao.insert(pmsUser);
+	}
+
+	private void setDefultValue(PmsUser pmsUser) {
 		String password = pmsUser.getPassword();
 		if(StringUtils.isEmpty(password)){
 			throw new IllegalArgumentException("用户密码不能为空");
@@ -47,9 +52,8 @@ public class PmsUserServiceImpl implements PmsUserService {
 		String salt = RandomUtils.getRandomString(SALT_LEGHT);
 		pmsUser.setSalt(salt);
 		pmsUser.setPassword(Md5Utils.encode(password, salt));
-		pmsUserDao.insert(pmsUser);
 	}
-
+	
 	/**
 	 * 根据ID获取用户信息.
 	 * 
@@ -117,9 +121,13 @@ public class PmsUserServiceImpl implements PmsUserService {
 	@Override
 	public void create(List<PmsUser> pmsUsers) {
 		// TODO Auto-generated method stub
+//		for (PmsUser pmsUser : pmsUsers) {
+//			create(pmsUser);
+//		}
 		for (PmsUser pmsUser : pmsUsers) {
-			create(pmsUser);
+			setDefultValue(pmsUser);
 		}
+		pmsUserDao.insert(pmsUsers);
 	}
 
 }

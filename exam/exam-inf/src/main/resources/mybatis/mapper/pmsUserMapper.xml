@@ -60,6 +60,29 @@
 		null,
 		#{updateuser,jdbcType=INTEGER})
 	</insert>
+	<insert id="batchInsert" parameterType="list">
+	    insert into pms_user (id,
+		avatar, account,
+		password, salt, name,
+		birthday, sex, email,
+		phone,
+		roleid, deptid,
+		status, createtime, version,
+		updatetime, updateuser)
+		<foreach collection="list" open="values " item="p" separator=",">
+			(#{p.id,jdbcType=INTEGER}, #{p.avatar,jdbcType=VARCHAR},
+			#{p.account,jdbcType=VARCHAR},
+			#{p.password,jdbcType=VARCHAR},
+			#{p.salt,jdbcType=VARCHAR}, #{p.name,jdbcType=VARCHAR},
+			#{p.birthday,jdbcType=TIMESTAMP}, #{p.sex,jdbcType=INTEGER},
+			#{p.email,jdbcType=VARCHAR},
+			#{p.phone,jdbcType=VARCHAR},
+			#{p.roleid,jdbcType=VARCHAR}, #{p.deptid,jdbcType=INTEGER},
+			#{p.status,jdbcType=INTEGER}, NOW(), 0,
+			null,
+			#{p.updateuser,jdbcType=INTEGER})
+		</foreach>
+	</insert>
 	<update id="updateByPrimaryKey" parameterType="com.zhanghao.biz.entity.PmsUser">
 		update pms_user
 		<set>
@@ -100,7 +123,7 @@
 				<include refid="condition_sql"/>
 			</where>
 			<if test="startRowNum!=null and endRowNum!=null">
-				LIMIT #{pageFirst},#{pageSize},
+				LIMIT #{pageFirst},#{pageSize}
 			</if>
 	</select>
 	<select id="listPageCount" parameterType="map" resultType="int">

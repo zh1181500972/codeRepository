@@ -8,6 +8,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
+import org.springframework.expression.spel.ast.BooleanLiteral;
 
 public class DateUtils {
 	/**
@@ -456,6 +457,18 @@ public class DateUtils {
 		return new Long(days);
 	}
 
+	/**
+	 * 判断是否为闰年
+	 * @param args
+	 */
+	
+	public static boolean isLeapYear(int year){
+		if(year%4==0 && year%100!=0 || year%400==0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	public static void main(String[] args) {
 		System.out.println(DateUtils.getBetweenDays("2010-04-15 09:17:29",
 				"2011-05-16 19:17:29"));
