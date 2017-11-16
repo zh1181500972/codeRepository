@@ -292,12 +292,23 @@ public class PmsUser extends BaseEntity {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "PmsUser [avatar=" + avatar + ", account=" + account + ", password=" + password + ", salt=" + salt
-				+ ", name=" + name + ", birthday=" + birthday + ", sex=" + sex + ", email=" + email + ", phone=" + phone
-				+ ", roleid=" + roleid + ", deptid=" + deptid + ", status=" + status + "]";
+	private PmsRole pmsRole;
+
+	public PmsRole getPmsRole() {
+		return pmsRole;
 	}
 
-	
+	public void setPmsRole(PmsRole pmsRole) {
+		this.pmsRole = pmsRole;
+	}
+
+	// @Override
+	// public String toString() {
+	// return "PmsUser [avatar=" + avatar + ", account=" + account + ", password=" +
+	// password + ", salt=" + salt
+	// + ", name=" + name + ", birthday=" + birthday + ", sex=" + sex + ", email=" +
+	// email + ", phone=" + phone
+	// + ", roleid=" + roleid + ", deptid=" + deptid + ", status=" + status + "]";
+	// }
+
 }

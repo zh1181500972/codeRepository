@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +18,15 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import javax.management.relation.Role;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.zhanghao.biz.entity.PmsRole;
 import com.zhanghao.biz.entity.PmsUser;
 import com.zhanghao.biz.user.service.PmsUserService;
 import com.zhanghao.common.page.PageBean;
@@ -116,6 +120,13 @@ public class PmsUserServiceImplTest {
 	public void testGetByIdInteger() {
 		PmsUser byId = pmsUserService.getById(1);
 		Assert.assertNotNull(byId);
+//		PmsRole role=new PmsRole();
+//		role.setId(1);
+//		role.setCreatetime(new Date());
+//		role.setName("张浩");
+//		role.setTips("1,2,3");
+//		role.setNum(1);
+//		System.out.println(role);
 	}
 
 	@Test

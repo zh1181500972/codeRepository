@@ -106,14 +106,14 @@
 		FROM pms_user WHERE account=#{account}
 	</select>
 	<sql id="condition_sql">
-		<if test="account != null">account = #{account,jdbcType=VARCHAR},</if>
-		<if test="name != null">name like CONCAT('%',#{name,jdbcType=VARCHAR},'%'),</if>
-		<if test="birthday != null">birthday = #{birthday,jdbcType=TIMESTAMP},</if>
-		<if test="sex != null">sex = #{sex,jdbcType=INTEGER},</if>
-		<if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
-		<if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>
-		<if test="deptid != null">deptid = #{deptid,jdbcType=INTEGER},</if>
-		<if test="status != null">status = #{status,jdbcType=INTEGER}</if>
+		<if test="account != null">and account = #{account,jdbcType=VARCHAR} </if>
+		<if test="name != null">and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%'),</if>
+		<if test="birthday != null">and birthday = #{birthday,jdbcType=TIMESTAMP},</if>
+		<if test="sex != null">and sex = #{sex,jdbcType=INTEGER},</if>
+		<if test="email != null">and email = #{email,jdbcType=VARCHAR},</if>
+		<if test="phone != null">and phone = #{phone,jdbcType=VARCHAR},</if>
+		<if test="deptid != null">and deptid = #{deptid,jdbcType=INTEGER},</if>
+		<if test="status != null">and status = #{status,jdbcType=INTEGER}</if>
 	</sql>
 	<select id="listPage" parameterType="map" resultMap="BaseResultMap">
 		SELECT
@@ -130,6 +130,7 @@
 		SELECT count(*) FROM pms_user
 		<where>
 			<include refid="condition_sql"/>
+	        and id IS NOT NULL
 		</where>
 	</select>
 	<sql id="ness_up">
